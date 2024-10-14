@@ -18,14 +18,16 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true,nullable = false)
-    private String medicalRecordNumber;
-    private GenderEnum gender;
+    private String medicalNumber;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
     private String email;
-    private String phoneNumber;
+    private String phone;
     private String address;
+
+    @Enumerated(EnumType.STRING)
+    private GenderEnum gender;
 
     @ManyToOne
     private Cabinet cabinet;
