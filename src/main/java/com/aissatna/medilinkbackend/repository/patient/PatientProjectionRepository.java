@@ -22,10 +22,11 @@ public interface PatientProjectionRepository extends PatientRepository {
             ")" +
             "FROM " +
             "Patient p " +
-            "WHERE ((CAST (UNACCENT (LOWER(p.firstName)) AS STRING )  LIKE  ('%' || UNACCENT (LOWER(?1) ) || '%')) " +
-            "OR (CAST (UNACCENT (LOWER(p.lastName)) AS STRING )  LIKE  ('%' || UNACCENT (LOWER(?1) ) || '%'))" +
-            "OR LOWER(p.medicalNumber)  LIKE  ('%' ||  LOWER(?1)  || '%')" +
+            "WHERE p.cabinet.id = ?1 AND " +
+            "((CAST (UNACCENT (LOWER(p.firstName)) AS STRING )  LIKE  ('%' || UNACCENT (LOWER(?2) ) || '%')) " +
+            "OR (CAST (UNACCENT (LOWER(p.lastName)) AS STRING )  LIKE  ('%' || UNACCENT (LOWER(?2) ) || '%'))" +
+            "OR LOWER(p.medicalNumber)  LIKE  ('%' ||  LOWER(?2)  || '%')" +
             " ) "
     )
-    Page<PatientLineDTO> getPatientLines(Pageable pageable, String search);
+    Page<PatientLineDTO> getPatientLines(Pageable pageable,Long currentCabinetId, String search );
 }

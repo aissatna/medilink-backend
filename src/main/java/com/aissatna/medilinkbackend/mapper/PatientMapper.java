@@ -1,14 +1,20 @@
 package com.aissatna.medilinkbackend.mapper;
 
+import com.aissatna.medilinkbackend.configuration.app.AppContext;
 import com.aissatna.medilinkbackend.dto.patient.PatientDTO;
 import com.aissatna.medilinkbackend.dto.patient.PatientLineDTO;
 import com.aissatna.medilinkbackend.model.Patient;
 import com.aissatna.medilinkbackend.model.enums.GenderEnum;
-import com.aissatna.medilinkbackend.util.date.DateUtil;
+import com.aissatna.medilinkbackend.util.DateUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class PatientMapper {
+    private final AppContext appContext;
+
+
     public Patient mapToEntity(PatientDTO dto) {
         GenderEnum gender = dto.getGender().equals("M") ? GenderEnum.M : GenderEnum.F;
         return new Patient()
@@ -19,9 +25,8 @@ public class PatientMapper {
                 .setBirthDate(DateUtil.parseLocalDate(dto.getBirthDate()))
                 .setEmail(dto.getEmail())
                 .setPhone(dto.getPhone())
-                .setAddress(dto.getAddress());
-
-        //TODO : set patient cabinet
+                .setAddress(dto.getAddress())
+                .setCabinet(appContext.getCurrentUser().getCabinet());
     }
 
     public PatientLineDTO mapToDTO(Patient patient) {

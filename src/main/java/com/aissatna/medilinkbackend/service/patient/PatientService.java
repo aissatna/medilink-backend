@@ -1,14 +1,16 @@
 package com.aissatna.medilinkbackend.service.patient;
 
+import com.aissatna.medilinkbackend.configuration.app.AppContext;
 import com.aissatna.medilinkbackend.dto.patient.PatientDTO;
 import com.aissatna.medilinkbackend.dto.patient.PatientLineDTO;
 import com.aissatna.medilinkbackend.dto.shared.PageDTO;
+import com.aissatna.medilinkbackend.exception.ResourceNotFoundException;
 import com.aissatna.medilinkbackend.mapper.PatientMapper;
 import com.aissatna.medilinkbackend.model.Patient;
 import com.aissatna.medilinkbackend.model.enums.GenderEnum;
 import com.aissatna.medilinkbackend.repository.patient.PatientProjectionRepository;
 import com.aissatna.medilinkbackend.repository.patient.PatientRepository;
-import com.aissatna.medilinkbackend.util.date.DateUtil;
+import com.aissatna.medilinkbackend.util.DateUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,15 +21,15 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class PatientService implements IPatientService {
 
-    private PatientProjectionRepository patientProjectionRepository;
-    private PatientRepository patientRepository;
-
-    private PatientMapper patientMapper;
+    private final PatientProjectionRepository patientProjectionRepository;
+    private final PatientRepository patientRepository;
+    private final PatientMapper patientMapper;
+    private final AppContext appContext;
 
     @Override
     public PageDTO<PatientLineDTO> getPatientsTable(Pageable pageable, String search) {
         search = search != null && !search.isBlank() ? search.toLowerCase() : "";
-        return new PageDTO<>(patientProjectionRepository.getPatientLines(pageable, search));
+        return new PageDTO<>(patientProjectionRepository.getPatientLines(pageable, appContext.getCurrentUser().getCabinet().getId(), search));
     }
 
     @Override
@@ -37,15 +39,13 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public void deletePatient(Long id) {
-        patientRepository.findById(id).ifPresent(patient -> {
-            patientRepository.delete(patient);
-        });
+    public void deletePatient(Long patientId) {
+        patientRepository.delete(getPatientById(patientId));
     }
 
     @Override
-    public Patient updatePatient(Long id, PatientDTO patientDTO) {
-        Patient existingPatient = getPatientById(id);
+    public Patient updatePatient(Long patientId, PatientDTO patientDTO) {
+        Patient existingPatient = getPatientById(patientId);
         existingPatient.setFirstName(patientDTO.getFirstName())
                 .setLastName(patientDTO.getLastName())
                 .setGender(patientDTO.getGender().equals("M") ? GenderEnum.M : GenderEnum.F)
@@ -55,14 +55,14 @@ public class PatientService implements IPatientService {
                 .setPhone(patientDTO.getPhone())
                 .setAddress(patientDTO.getAddress());
 
-      return patientProjectionRepository.save(existingPatient);
+        return patientProjectionRepository.save(existingPatient);
     }
 
 
     @Override
-    public Patient getPatientById(Long id) {
-        return patientRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException(String.format("Patient with id %s not found", id))
+    public Patient getPatientById(Long patientId) {
+        return patientRepository.findById(patientId).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Patient with id %s not found", patientId))
         );
     }
 }
