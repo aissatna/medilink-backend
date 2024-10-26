@@ -1,8 +1,7 @@
 package com.aissatna.medilinkbackend.dto.patient;
 
-import com.aissatna.medilinkbackend.model.Patient;
 import com.aissatna.medilinkbackend.model.enums.GenderEnum;
-import com.aissatna.medilinkbackend.util.date.DateUtil;
+import com.aissatna.medilinkbackend.util.DateUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;

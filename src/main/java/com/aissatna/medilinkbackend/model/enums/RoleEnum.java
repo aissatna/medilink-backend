@@ -1,7 +1,7 @@
 package com.aissatna.medilinkbackend.model.enums;
 
 public enum RoleEnum {
-    ADMIN,
+    DIRECTOR,
     SECRETARY,
     NURSE,
 }
