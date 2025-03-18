@@ -2,7 +2,7 @@ package com.aissatna.medilinkbackend.configuration.app;
 
 
 import com.aissatna.medilinkbackend.model.User;
-import com.aissatna.medilinkbackend.repository.UserRepository;
+import com.aissatna.medilinkbackend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

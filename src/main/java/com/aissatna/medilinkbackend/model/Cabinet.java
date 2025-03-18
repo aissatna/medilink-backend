@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @Entity
 @Table(name = "cabinets")
-public class Cabinet {
+public class Cabinet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
