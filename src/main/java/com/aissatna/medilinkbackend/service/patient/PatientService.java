@@ -10,6 +10,7 @@ import com.aissatna.medilinkbackend.model.Patient;
 import com.aissatna.medilinkbackend.model.enums.GenderEnum;
 import com.aissatna.medilinkbackend.repository.patient.PatientProjectionRepository;
 import com.aissatna.medilinkbackend.repository.patient.PatientRepository;
+import com.aissatna.medilinkbackend.service.export.ExportPatientDataService;
 import com.aissatna.medilinkbackend.util.DateUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -23,11 +24,12 @@ public class PatientService implements IPatientService {
 
     private final PatientProjectionRepository patientProjectionRepository;
     private final PatientRepository patientRepository;
+    private final ExportPatientDataService exportService;
     private final PatientMapper patientMapper;
     private final AppContext appContext;
 
     @Override
-    public PageDTO<PatientLineDTO> getPatientsTable(Pageable pageable, String search) {
+    public PageDTO<PatientLineDTO> getPaginatedPatients(Pageable pageable, String search) {
         search = search != null && !search.isBlank() ? search.toLowerCase() : "";
         return new PageDTO<>(patientProjectionRepository.getPatientLines(pageable, appContext.getCurrentUser().getCabinet().getId(), search));
     }
@@ -35,7 +37,7 @@ public class PatientService implements IPatientService {
     @Override
     public Patient addPatient(PatientDTO newPatient) {
         Patient newPatientEntity = patientMapper.mapToEntity(newPatient);
-        return patientProjectionRepository.save(newPatientEntity);
+        return patientRepository.save(newPatientEntity);
     }
 
     @Override
@@ -48,14 +50,14 @@ public class PatientService implements IPatientService {
         Patient existingPatient = getPatientById(patientId);
         existingPatient.setFirstName(patientDTO.getFirstName())
                 .setLastName(patientDTO.getLastName())
-                .setGender(patientDTO.getGender().equals("M") ? GenderEnum.M : GenderEnum.F)
+                .setGender("M".equals(patientDTO.getGender()) ? GenderEnum.M : GenderEnum.F)
                 .setMedicalNumber(patientDTO.getMedicalNumber())
                 .setBirthDate(DateUtil.parseLocalDate(patientDTO.getBirthDate()))
                 .setEmail(patientDTO.getEmail())
                 .setPhone(patientDTO.getPhone())
                 .setAddress(patientDTO.getAddress());
 
-        return patientProjectionRepository.save(existingPatient);
+        return patientRepository.save(existingPatient);
     }
 
 
@@ -64,6 +66,14 @@ public class PatientService implements IPatientService {
         return patientRepository.findById(patientId).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Patient with id %s not found", patientId))
         );
+    }
+
+    @Override
+    public void sendPatientsExportByEmail(String search) {
+        search = search != null && !search.isBlank() ? search.toLowerCase() : "";
+        exportService.sendExportAttachment(
+                patientProjectionRepository.getPatientLines(Pageable.unpaged(), appContext.getCurrentUser().getCabinet().getId(), search)
+                        .toList());
     }
 }
 

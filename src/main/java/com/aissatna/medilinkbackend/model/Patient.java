@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 @Entity
 @Table(name = "patients")
-public class Patient {
+public class Patient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

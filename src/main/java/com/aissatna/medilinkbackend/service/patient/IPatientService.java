@@ -7,9 +7,10 @@ import com.aissatna.medilinkbackend.model.Patient;
 import org.springframework.data.domain.Pageable;
 
 public interface IPatientService {
-    PageDTO<PatientLineDTO> getPatientsTable(Pageable pageable, String search);
+    PageDTO<PatientLineDTO> getPaginatedPatients(Pageable pageable, String search);
     Patient addPatient(PatientDTO patientDTO);
     void deletePatient(Long patientId);
     Patient updatePatient(Long patientId, PatientDTO patientDTO);
     Patient getPatientById(Long patientId);
+    void sendPatientsExportByEmail(String search);
 }

@@ -39,25 +39,25 @@ VALUES
 SELECT SETVAL(pg_get_serial_sequence('patients', 'id'), (SELECT MAX(id) FROM public.patients));
 -- *** Users
 -- Users for Cabinet A
-INSERT INTO public.users (id, first_name, last_name, gender, email, phone_number, password, role, photo_url, cabinet_id)
+INSERT INTO public.users (id, first_name, last_name, gender, email, phone, password, role, photo_url, cabinet_id)
 VALUES
     -- Director User
     (1, 'John', 'Doe', 'M', 'john.doe@example.com', '0123456789', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'DIRECTOR', 'users/1/avatar/avatar.gif', 1),
     -- Secretary User
     (2, 'Jane', 'Smith', 'F', 'jane.smith@example.com', '0123456790', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'SECRETARY', 'users/2/avatar/avatar.gif', 1),
     -- Nurse Users
-    (3, 'Emily', 'Johnson', 'F', 'emily.johnson@example.com', '0123456791', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/3/avatar/avatar.gif', 1),
-    (4, 'Michael', 'Brown', 'M', 'michael.brown@example.com', '0123456792', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/4/avatar/avatar.gif', 1);
+    (3, 'Emily', 'Johnson', 'F', 'emily.johnson@example.com', '0123456791', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/3/avatar/avatar.png', 1),
+    (4, 'Michael', 'Brown', 'M', 'michael.brown@example.com', '0123456792', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/4/avatar/avatar.png', 1);
 
 -- Users for Cabinet B
-INSERT INTO public.users (id, first_name, last_name, gender, email, phone_number, password, role, photo_url, cabinet_id)
+INSERT INTO public.users (id, first_name, last_name, gender, email, phone, password, role, photo_url, cabinet_id)
 VALUES
     -- Director User
     (5, 'Olivia', 'Williams', 'F', 'olivia.williams@example.com', '0123456793', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'DIRECTOR', 'users/5/avatar/avatar.gif', 2),
     -- Secretary User
-    (6, 'James', 'Miller', 'M', 'james.miller@example.com', '0123456794', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'SECRETARY', 'users/6/avatar/avatar.gif', 2),
+    (6, 'James', 'Miller', 'M', 'james.miller@example.com', '0123456794', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'SECRETARY', 'users/6/avatar/avatar.png', 2),
     -- Nurse Users
-    (7, 'Sophie', 'Garcia', 'F', 'sophie.garcia@example.com', '0123456795', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/7/avatar/avatar.gif', 2),
-    (8, 'Daniel', 'Rodriguez', 'M', 'daniel.rodriguez@example.com', '0123456796', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/8/avatar/avatar.gif', 2);
+    (7, 'Sophie', 'Garcia', 'F', 'sophie.garcia@example.com', '0123456795', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/7/avatar/avatar.png', 2),
+    (8, 'Daniel', 'Rodriguez', 'M', 'daniel.rodriguez@example.com', '0123456796', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/8/avatar/avatar.png', 2);
 
 SELECT SETVAL(pg_get_serial_sequence('users', 'id'), (SELECT MAX(id) FROM public.users));

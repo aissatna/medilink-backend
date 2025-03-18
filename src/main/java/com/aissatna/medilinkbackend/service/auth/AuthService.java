@@ -3,7 +3,7 @@ package com.aissatna.medilinkbackend.service.auth;
 import com.aissatna.medilinkbackend.dto.auth.JwtAuthDTO;
 import com.aissatna.medilinkbackend.dto.auth.SignInDTO;
 import com.aissatna.medilinkbackend.exception.ResourceNotFoundException;
-import com.aissatna.medilinkbackend.repository.UserRepository;
+import com.aissatna.medilinkbackend.repository.user.UserRepository;
 import com.aissatna.medilinkbackend.service.auth.jwt.JwtService;
 import com.aissatna.medilinkbackend.service.email.IEmailService;
 import com.aissatna.medilinkbackend.util.PasswordUtil;
@@ -42,6 +42,6 @@ public class AuthService implements IAuthService {
         String newPassword = PasswordUtil.generateRandomPassword();
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
-        emailService.sendNewPassword(email, newPassword);
+        emailService.sendNewPassword(email, newPassword,false);
     }
 }

@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/current")
     public ResponseEntity<CurrentUserDTO> getCurrentUser(){
-        CurrentUserDTO currentUserDTO = userMapper.mapToDTO(userService.getCurrentUser());
+        CurrentUserDTO currentUserDTO = userMapper.mapToCurrentUserDTO(userService.getCurrentUser());
         return ResponseEntity.ok(currentUserDTO);
     }
 

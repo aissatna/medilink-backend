@@ -7,6 +7,7 @@ import com.aissatna.medilinkbackend.dto.shared.PageDTO;
 import com.aissatna.medilinkbackend.mapper.PatientMapper;
 import com.aissatna.medilinkbackend.service.patient.IPatientService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/patients")
 @AllArgsConstructor
+@Slf4j
 public class PatientController {
 
     private final IPatientService patientService;
@@ -24,7 +26,7 @@ public class PatientController {
     @PreAuthorize("hasAnyRole('ROLE_SECRETARY')")
     @GetMapping("/table")
     public ResponseEntity<PageDTO<PatientLineDTO>> getCabinetPatientsTable(Pageable pageable, @RequestParam(required = false) String search){
-            return ResponseEntity.ok(patientService.getPatientsTable(pageable,search));
+            return ResponseEntity.ok(patientService.getPaginatedPatients(pageable,search));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SECRETARY')")
@@ -35,20 +37,26 @@ public class PatientController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SECRETARY')")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-        patientService.deletePatient(id);
+    @DeleteMapping("/delete/{patientId}")
+    public ResponseEntity<Void> deletePatient(@PathVariable Long patientId) {
+        patientService.deletePatient(patientId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_SECRETARY')")
-    @PutMapping("/update/{id}")
-    public ResponseEntity<PatientLineDTO> updatePatient(@PathVariable Long id, @RequestBody PatientDTO patientDTO) {
-        PatientLineDTO patientLineDTO = patientMapper.mapToDTO(patientService.updatePatient(id, patientDTO));
+    @PutMapping("/update/{patientId}")
+    public ResponseEntity<PatientLineDTO> updatePatient(@PathVariable Long patientId, @RequestBody PatientDTO patientDTO) {
+        PatientLineDTO patientLineDTO = patientMapper.mapToDTO(patientService.updatePatient(patientId, patientDTO));
         return new ResponseEntity<>(patientLineDTO, HttpStatus.OK);
     }
 
-    
-    //TODO: implement export end point
+
+    @PreAuthorize("hasAnyRole('ROLE_SECRETARY')")
+    @PostMapping("/export")
+    public ResponseEntity<Void> sendPatientsExportByEmail(@RequestParam(required = false) String search) {
+        log.info("search: {}", search);
+        patientService.sendPatientsExportByEmail(search);
+        return ResponseEntity.ok().build();
+    }
 
 }
