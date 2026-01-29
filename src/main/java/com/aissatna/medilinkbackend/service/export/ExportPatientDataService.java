@@ -50,7 +50,7 @@ public class ExportPatientDataService implements IExportDataService<PatientLineD
 
     @Override
     public String buildFileName() {
-        return "Export_Patients_%s.xlsx".formatted(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        return "Export_Patients_%s.xlsx".formatted(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
     }
 
 

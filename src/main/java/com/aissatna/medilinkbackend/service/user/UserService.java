@@ -115,6 +115,7 @@ public class UserService implements IUserService {
     public void sendUsersExportByEmail(String search, RoleEnum role) {
         search = search != null && !search.isBlank() ? search.toLowerCase() : "";
         exportService.sendExportAttachment(
+                role,
                 userProjectionRepository.getUserLines(
                         Pageable.unpaged(),
                         appContext.getCurrentUser().getCabinet().getId(),
