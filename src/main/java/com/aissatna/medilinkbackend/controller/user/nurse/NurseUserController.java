@@ -55,7 +55,7 @@ public class NurseUserController {
 
     @PreAuthorize("hasAnyRole('ROLE_SECRETARY')")
     @PostMapping("/export")
-    public ResponseEntity<Void> sendPatientsExportByEmail(@RequestParam(required = false) String search) {
+    public ResponseEntity<Void> sendNursesExportByEmail(@RequestParam(required = false) String search) {
         userService.sendUsersExportByEmail(search,RoleEnum.NURSE );
         return ResponseEntity.ok().build();
     }
