@@ -26,14 +26,14 @@ public class PatientLineDTO {
 
     public PatientLineDTO(Long id, String firstName, String lastName,
                           GenderEnum genderEnum, String medicalNumber,
-                          LocalDate birthDate, String address, String phone, String email) {
+                          LocalDate birthDate, String address, String phone, String email,int nbVisits) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.medicalNumber = medicalNumber;
         this.gender = genderEnum.name();
         this.birthDate = DateUtil.formatLocalDateToString(birthDate, DateUtil.DD_MM_YYYY, DateUtil.PARIS_TIME_ZONE);
-        this.visits = 0;
+        this.visits = nbVisits;
         this.address = address;
         this.phone = phone;
         this.email = email;

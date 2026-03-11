@@ -18,7 +18,8 @@ public interface PatientProjectionRepository extends PatientRepository {
             "p.birthDate," +
             "p.address," +
             "p.phone," +
-            "p.email " +
+            "p.email," +
+            "size(p.visits) " +
             ")" +
             "FROM " +
             "Patient p " +

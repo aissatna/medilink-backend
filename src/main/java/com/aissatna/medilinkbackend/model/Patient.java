@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,5 +34,8 @@ public class Patient implements Serializable {
 
     @ManyToOne
     private Cabinet cabinet;
+
+    @OneToMany(mappedBy = "patient")
+    private Set<Visit> visits = new HashSet<>();
 
 }
