@@ -1,12 +1,18 @@
 package com.aissatna.medilinkbackend.model;
 
+import com.aissatna.medilinkbackend.model.enums.VisiModeEnum;
 import com.aissatna.medilinkbackend.model.enums.VisitStatusEnum;
+import com.aissatna.medilinkbackend.model.VisitSupplement;
+import com.aissatna.medilinkbackend.model.ActVisit;
+import com.aissatna.medilinkbackend.model.Patient;
+import com.aissatna.medilinkbackend.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -21,11 +27,17 @@ public class Visit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private VisitStatusEnum status;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
+    private String meetingLink;
+    private Instant validatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private VisitStatusEnum status;
+    @Enumerated(EnumType.STRING)
+    private VisiModeEnumrEnum mode;
+
 
     @ManyToOne
     private User nurse;
@@ -35,4 +47,7 @@ public class Visit implements Serializable {
 
     @OneToMany(mappedBy = "visit")
     private List<ActVisit> acts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "visit")
+    private Set<VisitSupplement> supplements = new HashSet<>();
 }

@@ -1,4 +1,4 @@
-package com.aissatna.medilinkbackend.repository;
+package com.aissatna.medilinkbackend.repository.visit;
 
 import com.aissatna.medilinkbackend.model.Visit;
 import org.springframework.data.jpa.repository.JpaRepository;
