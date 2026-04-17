@@ -7,13 +7,14 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Columns;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @Entity
 @Table(name = "acts_visits")
-public class ActVisit {
+public class ActVisit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

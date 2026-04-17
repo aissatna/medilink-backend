@@ -10,13 +10,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VisitProjectionRepository extends VisitRepository {
 
-      /*@Query(value = "SELECT new com.aissatna.medilinkbackend.dto.visit.nurse.NurseVisitLineDTO( " +
+      @Query(value = "SELECT new com.aissatna.medilinkbackend.dto.visit.nurse.NurseVisitLineDTO( " +
             "v.id," +
             "v.date," +
             "v.startTime," +
             "v.endTime," +
             "v.status," +
-            "v.isFirstVisit," +
             "v.patient.id," +
             "v.patient.firstName," +
             "v.patient.lastName," +
@@ -27,7 +26,7 @@ public interface VisitProjectionRepository extends VisitRepository {
             "Visit v " +
             "WHERE v.nurse.id = ?1 "
             
-    )*/
+    )
     Page<NurseVisitLineDTO> getNurseVisitLines(Pageable pageable,Long currentUserId);
 
 }

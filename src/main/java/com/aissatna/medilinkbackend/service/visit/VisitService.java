@@ -1,4 +1,12 @@
 package com.aissatna.medilinkbackend.service.visit;
+import com.aissatna.medilinkbackend.configuration.app.AppContext;
+import com.aissatna.medilinkbackend.dto.shared.PageDTO;
+import com.aissatna.medilinkbackend.dto.visit.nurse.NurseVisitLineDTO;
+import com.aissatna.medilinkbackend.repository.visit.VisitProjectionRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @AllArgsConstructor

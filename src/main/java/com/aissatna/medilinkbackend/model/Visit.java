@@ -17,6 +17,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 
 @Getter
 @Setter
@@ -36,7 +39,7 @@ public class Visit implements Serializable {
     @Enumerated(EnumType.STRING)
     private VisitStatusEnum status;
     @Enumerated(EnumType.STRING)
-    private VisiModeEnumrEnum mode;
+    private VisiModeEnum mode;
 
 
     @ManyToOne

@@ -61,3 +61,76 @@ VALUES
     (8, 'Daniel', 'Rodriguez', 'M', 'daniel.rodriguez@example.com', '0123456796', '$2a$10$ZUUo1.cbkpMBgLx8Fwr5MubQRf0UnXPMxkwbyImCBAoFA/gMDUEye', 'NURSE', 'users/8/avatar/avatar.png', 2);
 
 SELECT SETVAL(pg_get_serial_sequence('users', 'id'), (SELECT MAX(id) FROM public.users));
+
+-- *** Act Types
+INSERT INTO public.act_types (code, description)
+VALUES
+    ('INJ', 'Injections'),
+    ('PAN', 'Wound Care'),
+    ('PRE', 'Blood Tests'),
+    ('PER', 'Infusions'),
+    ('SUR', 'Post-Surgery Care'),
+    ('HYG', 'Hygiene Care');
+SELECT SETVAL(pg_get_serial_sequence('act_types', 'id'), (SELECT MAX(id) FROM public.act_types));
+
+-- *** Act Catalog
+INSERT INTO public.act_catalogs (description, price, type_id)
+VALUES
+    ('Intramuscular injection', 4.50, 1),
+    ('Subcutaneous injection', 4.50, 1),
+    ('Intravenous injection', 6.30, 1),
+    ('Insulin injection', 4.50, 1),
+    ('Simple wound dressing', 6.30, 2),
+    ('Complex wound dressing', 12.60, 2),
+    ('Burn dressing', 12.60, 2),
+    ('Suture removal', 6.30, 2),
+    ('Blood sample collection', 6.30, 3),
+    ('Glycemia test', 3.15, 3),
+    ('IV infusion setup', 9.45, 4),
+    ('IV infusion monitoring (per hour)', 6.30, 4),
+    ('Catheter care', 6.30, 5),
+    ('Drain management', 9.45, 5),
+    ('Post-operative wound check', 6.30, 5),
+    ('Full body wash', 12.60, 6),
+    ('Partial hygiene care', 6.30, 6);
+SELECT SETVAL(pg_get_serial_sequence('act_catalogs', 'id'), (SELECT MAX(id) FROM public.act_catalogs));
+
+-- *** Supplement Catalog
+INSERT INTO public.supplement_catalogs (label, amount)
+VALUES
+    ('Sterile bandage', 2.00),
+    ('Latex gloves (pair)', 1.20),
+    ('Syringe 5ml', 0.90),
+    ('Alcohol wipe', 0.15);
+SELECT SETVAL(pg_get_serial_sequence('supplement_catalogs', 'id'), (SELECT MAX(id) FROM public.supplement_catalogs));
+
+-- *** Visits
+INSERT INTO public.visits (date, start_time, end_time, status, mode, nurse_id, patient_id)
+VALUES
+    (current_date, '08:30', '09:30', 'SCHEDULED', 'IN_PERSON', 3, 1),
+    (current_date, '10:00', '11:00', 'SCHEDULED', 'IN_PERSON', 4, 2),
+    (current_date, '14:00', '15:00', 'VALIDATED', 'IN_PERSON', 3, 3),
+    (current_date + INTERVAL '1 day', '09:00', '10:00', 'SCHEDULED', 'IN_PERSON', 7, 4),
+    (current_date + INTERVAL '1 day', '11:30', '12:30', 'CANCELED', 'IN_PERSON', 7, 5),
+    (current_date + INTERVAL '2 day', '08:00', '09:00', 'SCHEDULED', 'IN_PERSON', 8, 6),
+    (current_date + INTERVAL '3 day', '13:00', '14:30', 'SCHEDULED', 'IN_PERSON', 8, 7),
+    (current_date + INTERVAL '4 day', '10:00', '11:00', 'SCHEDULED', 'IN_PERSON', 3, 8),
+    (current_date - INTERVAL '1 day', '09:00', '10:00', 'SCHEDULED', 'IN_PERSON', 4, 9);
+SELECT SETVAL(pg_get_serial_sequence('visits', 'id'), (SELECT MAX(id) FROM public.visits));
+
+-- *** Acts Visits
+INSERT INTO public.acts_visits (visit_id, act_id, quantity, price_at_time, notes)
+VALUES
+    (3, 9, 1, 6.30, 'Blood sample collection for analysis'),
+    (3, 10, 1, 3.15, 'Glycemia control reach'),
+    (1, 1, 1, 4.50, 'First visit injection'),
+    (2, 5, 1, 6.30, 'Simple wound dressing');
+SELECT SETVAL(pg_get_serial_sequence('acts_visits', 'id'), (SELECT MAX(id) FROM public.acts_visits));
+
+-- *** Visit Supplements
+INSERT INTO public.visit_supplements (label, amount_at_time, quantity, supp_catalog_id, visit_id)
+VALUES
+    ('Sterile bandage', 2.00, 2, 1, 3),
+    ('Latex gloves (pair)', 1.20, 1, 2, 3),
+    ('Syringe 5ml', 0.90, 1, 3, 1);
+SELECT SETVAL(pg_get_serial_sequence('visit_supplements', 'id'), (SELECT MAX(id) FROM public.visit_supplements));

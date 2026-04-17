@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -12,9 +13,14 @@ public final class DateUtil {
 
     public static final String PARIS_TIME_ZONE = "Europe/Paris";
     public static final String DD_MM_YYYY = "dd/MM/yyyy";
+    public static final String HH_MM = "HH:mm";
 
     public static String formatLocalDateToString(LocalDate localDate, String outputPattern, String timeZone ) {
         return DateTimeFormatter.ofPattern (outputPattern).withZone(ZoneId.of(timeZone)).format(localDate);
+    }
+
+    public static String formatLocalTimeToString(LocalTime localTime) {
+        return localTime.format(DateTimeFormatter.ofPattern(HH_MM));
     }
 
     public static LocalDate parseLocalDate(String dateString) {
